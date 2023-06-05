@@ -17,6 +17,7 @@ Game::~Game()
 void Game::Initwindow()
 {
     this->window = new sf::RenderWindow(sf::VideoMode(video), "Tower defense", sf::Style::Titlebar | sf::Style::Close);
+    window->setFramerateLimit(60);
 }
 
 //inicjalizacja zmiennych
@@ -25,6 +26,7 @@ void Game::Initvariable()
     this->window = nullptr;
     this->video.width = 1000;
     this->video.height = 600;
+    clock.restart();
 }
 
 //sprawdzenie czy okno dzia³a
@@ -61,6 +63,7 @@ void  Game::render()
 void  Game::update()
 {    //sprawdzanie zdarzeñ
     this->pollevents();
+    sf::Time elapsed = clock.restart();
 
 }
 

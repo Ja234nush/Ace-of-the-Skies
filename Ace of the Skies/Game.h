@@ -4,16 +4,18 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Network.hpp>
 #include <SFML/Window.hpp>
-
 //klasa ktora zarzadza oknem i procesami gry
 class Game
 {
 private:
+	//inicjalizacja zmiennych i okna
 	void Initwindow();
 	void Initvariable();
+	//zmienne okna i wydarzen
 	sf::RenderWindow* window;
 	sf::Event ev;
 	sf::VideoMode video;
+	sf::Clock clock;
 public:
 	//konstruktory / destruktory
 	Game();
