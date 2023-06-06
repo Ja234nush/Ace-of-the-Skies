@@ -153,12 +153,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Ace_of_the _skies.cpp" />
+    <ClCompile Include="Assetmanager.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="State.cpp" />
     <ClCompile Include="Statemanager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Assetmanager.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="State.h" />
