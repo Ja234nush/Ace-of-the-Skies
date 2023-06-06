@@ -1,71 +1,46 @@
 #include "Game.h"
+#include "MainMenu.h"
 
 //konstruktory destruktory definicje
-Game::Game() {
+Game::Game() : m_context(std::make_shared<Context>())
+{
     // Inicjalizacja okna SFML
-    this->Initvariable();
-    this->Initwindow();
+    m_context->m_window->create(sf::VideoMode(800,600), "Ace of the skies", sf::Style::Titlebar | sf::Style::Close);
+    m_context->m_states->Add(std::make_unique<MainMenu>(m_context));
 }
 Game::~Game()
 {
-    delete this->window;
+  
 }
 
-//funkcje private
+//funkcje 
 
-//utworzenie okna
-void Game::Initwindow()
-{
-    this->window = new sf::RenderWindow(sf::VideoMode(video), "Tower defense", sf::Style::Titlebar | sf::Style::Close);
-    window->setFramerateLimit(60);
-}
+void  Game::run()
+{  
+    sf::CircleShape circle(100);
+    circle.setFillColor(sf::Color::Red);
 
-//inicjalizacja zmiennych
-void Game::Initvariable()
-{
-    this->window = nullptr;
-    this->video.width = 1000;
-    this->video.height = 600;
-    clock.restart();
-}
+    sf::Clock clock;
+    sf::Time TimeSinceFrame = sf::Time::Zero;
 
-//sprawdzenie czy okno dzia³a
-const bool Game::running() const
-{
-    return this->window->isOpen();
-}
+    while (m_context->m_window->isOpen())
+    {   sf::Time elapsed = clock.restart();
+    
+        while (TimeSinceFrame<SecPerFrame)
+            {
+            TimeSinceFrame += elapsed;
+    
+                 m_context->m_states->ProcessStateChanges();
+                 m_context->m_states->getCurrent()->ProcessInput();
+                 m_context->m_states->getCurrent()->Update(SecPerFrame);
+                 m_context->m_states->getCurrent()->Draw();
 
-//funkcje
-
-//sprawdzanie zdarzeñ
-void Game::pollevents()
-{
-    while (this->window->pollEvent(this->ev))
-    {
-        switch (ev.type)
-        {
-        case sf::Event::Closed:
-            window->close();
-            break;
-
-        case sf::Event::KeyPressed:
-            window->close();
-            break;
-
-        }
+       
+     
+            }
     }
 }
-void  Game::render()
-{  //czyszczenie i rysowanie okna
-    this->window->clear(sf::Color::Red);
-    this->window->display();
-}
-void  Game::update()
-{    //sprawdzanie zdarzeñ
-    this->pollevents();
-    sf::Time elapsed = clock.restart();
 
-}
 
 
 
