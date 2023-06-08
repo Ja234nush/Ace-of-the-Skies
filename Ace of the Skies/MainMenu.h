@@ -12,6 +12,8 @@ class MainMenu:public Engine::State
 	sf::Text m_PlayButton;
 	sf::Text m_ExitButton;
 	sf::Sprite m_background;
+	sf::Sprite m_clouds;
+	sf::Vector2u world = sf::Vector2u(1200, 900);
 	
 	bool m_IsPlayButtonSelected;
 	bool m_IsPlayButtonPressed;

@@ -1,4 +1,5 @@
 #include "MainMenu.h"
+#include<ctime>;
 #include<SFML/Window/Event.hpp>
 
 MainMenu::MainMenu(std::shared_ptr<Context>& context):m_context(context),
@@ -14,6 +15,7 @@ MainMenu::~MainMenu()
 
 void MainMenu::Init()
 {
+    srand(time(0));
 	m_context->m_asset->AddFont(Main_Font,"Arial.ttf");
 	m_GameTitle.setFont(m_context->m_asset->GetFont(Main_Font));
 	m_GameTitle.setString("Ace of the skies");
@@ -35,9 +37,17 @@ void MainMenu::Init()
     m_ExitButton.setCharacterSize(20);
 
    m_context->m_asset->AddTexture(BACKGROUND, "Assets/background.png",true);
+   m_context->m_asset->AddTexture(CLOUD1, "Assets/sprite_CLOUDS0.png",true);
+   m_context->m_asset->AddTexture(CLOUD2, "Assets/sprite_CLOUDS1.png",true);
+   m_context->m_asset->AddTexture(CLOUD3, "Assets/sprite_CLOUDS2.png",true);
+   m_context->m_asset->AddTexture(CLOUD4, "Assets/sprite_CLOUDS3.png",true);
+   m_context->m_asset->AddTexture(CLOUD5, "Assets/sprite_CLOUDS4.png",true);
+   m_context->m_asset->AddTexture(CLOUD6, "Assets/sprite_CLOUDS5.png",true);
     m_background.setTexture(m_context->m_asset->GetTexture(BACKGROUND));
     m_background.setTextureRect(m_context->m_window->getViewport(m_context->m_window->getDefaultView()));
 
+    m_clouds.setTexture(m_context->m_asset->GetTexture(CLOUD1));
+    m_clouds.setPosition(sf::Vector2f(800, rand() % 600));
 
 }
 
@@ -66,7 +76,14 @@ void MainMenu::Update(sf::Time deltaTime)
 void MainMenu::ProcessInput()
 {
     sf::Event ev;
-
+    if (m_clouds.getGlobalBounds().width + m_clouds.getPosition().x > 0)
+    {
+        m_clouds.move(-1, 0);
+    }
+    else
+    {
+        m_clouds.setPosition(sf::Vector2f(500, rand() % 400));
+    }
     while (m_context->m_window->pollEvent(ev))
     {
         //switch (ev.type)
@@ -74,8 +91,9 @@ void MainMenu::ProcessInput()
         if (ev.type == sf::Event::Closed)
         {   //zamkniêcie okna
             m_context->m_window->close();
+            break;
         }
-        else if (ev.type == sf::Event::KeyPressed)
+        if (ev.type == sf::Event::KeyPressed)
         {
             switch (ev.key.code)
             {
@@ -103,10 +121,15 @@ void MainMenu::ProcessInput()
                 {
                     m_IsPlayButtonPressed = true;
                     m_context->m_states->Add(std::make_unique<GamePlay>(m_context), true);
+                   // m_context->m_window->setSize(world);
+                    
+
                 }
                 else
                 {
                     m_IsExitButtonPressed = true;
+                    m_context->m_window->close();
+                    
                 }break;
             }
             default:
@@ -119,6 +142,7 @@ void MainMenu::Draw()
 {
 	m_context->m_window->clear(sf::Color::Black);
     m_context->m_window->draw(m_background);
+    m_context->m_window->draw(m_clouds);
 	m_context->m_window->draw(m_GameTitle);
 	m_context->m_window->draw(m_PlayButton);
 	m_context->m_window->draw(m_ExitButton);

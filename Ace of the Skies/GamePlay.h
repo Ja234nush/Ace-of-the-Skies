@@ -1,8 +1,8 @@
 #pragma once
-#include <memory>;
+#include <memory>
 #include <SFML/Graphics/Sprite.hpp>
-#include "State.h";
-#include "Game.h";
+#include "State.h"
+#include "Game.h"
 class GamePlay : public Engine::State
 {
 private:
@@ -11,6 +11,7 @@ private:
 	bool m_is_paused;
 	sf::Sprite m_background;
 	sf::Text m_Score;
+	sf::RectangleShape rectangle;
 public:
 	GamePlay(std::shared_ptr<Context> &context);
 	~GamePlay();

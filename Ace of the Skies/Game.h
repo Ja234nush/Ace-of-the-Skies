@@ -12,6 +12,12 @@ enum AssetID
 {
 	Main_Font = 0,
 	BACKGROUND = 1,
+	CLOUD1 = 2,
+	CLOUD2 = 3,
+	CLOUD3 = 4,
+	CLOUD4 = 5,
+	CLOUD5 = 5,
+	CLOUD6 = 5,
 };
 
 struct Context
@@ -34,7 +40,7 @@ private:
 	std::shared_ptr<Context> m_context;
 	sf::Time SecPerFrame = sf::seconds(1.f / 60.f);
 	sf::VideoMode video = sf::VideoMode(800, 600);
-	sf::VideoMode world = sf::VideoMode(1600, 1200);
+	
 public:
 	//konstruktory / destruktory
 	Game();
