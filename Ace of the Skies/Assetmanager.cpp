@@ -1,4 +1,5 @@
 #include "Assetmanager.h"
+#include <iostream>
 
 Engine::Assetmanager::Assetmanager()
 {
@@ -16,6 +17,10 @@ void Engine::Assetmanager::AddTexture(int id, const std::string& filepath, bool 
 	{
 		texture->setRepeated(isReapeted);
 		m_textures[id] = std::move(texture);
+	}
+	else
+	{
+		std::cout << "nie  udalo sie wczytac "<<filepath << std::endl;
 	}
 }
 

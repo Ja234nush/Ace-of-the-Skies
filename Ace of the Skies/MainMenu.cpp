@@ -1,5 +1,6 @@
 #include "MainMenu.h"
 #include<SFML/Window/Event.hpp>
+
 MainMenu::MainMenu(std::shared_ptr<Context>& context):m_context(context),
 m_IsPlayButtonSelected(true), m_IsPlayButtonPressed(false),
 m_IsExitButtonSelected(false), m_IsExitButtonPressed(false)
@@ -32,6 +33,11 @@ void MainMenu::Init()
     m_ExitButton.setOrigin(m_ExitButton.getGlobalBounds().width / 2, m_ExitButton.getGlobalBounds().height / 2);
     m_ExitButton.setPosition(m_context->m_window->getSize().x / 2,( m_context->m_window->getSize().y / 2)+70.f);
     m_ExitButton.setCharacterSize(20);
+
+   m_context->m_asset->AddTexture(BACKGROUND, "Assets/background.png",true);
+    m_background.setTexture(m_context->m_asset->GetTexture(BACKGROUND));
+    m_background.setTextureRect(m_context->m_window->getViewport(m_context->m_window->getDefaultView()));
+
 
 }
 
@@ -96,6 +102,7 @@ void MainMenu::ProcessInput()
                 if (m_IsPlayButtonSelected)
                 {
                     m_IsPlayButtonPressed = true;
+                    m_context->m_states->Add(std::make_unique<GamePlay>(m_context), true);
                 }
                 else
                 {
@@ -111,8 +118,10 @@ void MainMenu::ProcessInput()
 void MainMenu::Draw()
 {
 	m_context->m_window->clear(sf::Color::Black);
+    m_context->m_window->draw(m_background);
 	m_context->m_window->draw(m_GameTitle);
 	m_context->m_window->draw(m_PlayButton);
 	m_context->m_window->draw(m_ExitButton);
+	
 	m_context->m_window->display();
 }

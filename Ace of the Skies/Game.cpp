@@ -5,7 +5,7 @@
 Game::Game() : m_context(std::make_shared<Context>())
 {
     // Inicjalizacja okna SFML
-    m_context->m_window->create(sf::VideoMode(800,600), "Ace of the skies", sf::Style::Titlebar | sf::Style::Close);
+    m_context->m_window->create(video, "Ace of the skies", sf::Style::Titlebar | sf::Style::Close);
     m_context->m_states->Add(std::make_unique<MainMenu>(m_context));
 }
 Game::~Game()

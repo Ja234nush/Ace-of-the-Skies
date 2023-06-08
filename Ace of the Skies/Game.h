@@ -8,9 +8,10 @@
 #include "Assetmanager.h"
 #include "Statemanager.h"
 
-enum AssteID
+enum AssetID
 {
-	Main_Font = 0
+	Main_Font = 0,
+	BACKGROUND = 1,
 };
 
 struct Context
@@ -32,7 +33,8 @@ class Game
 private:
 	std::shared_ptr<Context> m_context;
 	sf::Time SecPerFrame = sf::seconds(1.f / 60.f);
-	
+	sf::VideoMode video = sf::VideoMode(800, 600);
+	sf::VideoMode world = sf::VideoMode(1600, 1200);
 public:
 	//konstruktory / destruktory
 	Game();

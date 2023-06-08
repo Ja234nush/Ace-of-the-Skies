@@ -4,12 +4,14 @@
 
 #include "State.h"
 #include "Game.h"
+#include "GamePlay.h"
 class MainMenu:public Engine::State
 {private:
 	std::shared_ptr<Context> m_context;
 	sf::Text m_GameTitle;
 	sf::Text m_PlayButton;
 	sf::Text m_ExitButton;
+	sf::Sprite m_background;
 	
 	bool m_IsPlayButtonSelected;
 	bool m_IsPlayButtonPressed;
