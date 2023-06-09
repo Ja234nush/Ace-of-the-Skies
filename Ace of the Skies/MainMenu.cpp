@@ -88,7 +88,7 @@ void MainMenu::Update(sf::Time deltaTime)
         AssetID randomCloud = static_cast<AssetID>(random_number);
 
         m_clouds.setTexture(m_context->m_asset->GetTexture(randomCloud));
-        m_clouds.setPosition(sf::Vector2f(600, rand() % 400));
+        m_clouds.setPosition(sf::Vector2f(800, rand() % 400));
     }
 }
 void MainMenu::ProcessInput()

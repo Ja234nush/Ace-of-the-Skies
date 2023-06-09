@@ -34,6 +34,7 @@ void  Game::run()
                  m_context->m_states->getCurrent()->ProcessInput();
                  m_context->m_states->getCurrent()->Update(SecPerFrame);
                  m_context->m_states->getCurrent()->Draw();
+                 //std::cout << "1:  " << elapsed.asSeconds() << "/    2:  " << SecPerFrame.asSeconds() << std::endl;
 
        
      

@@ -21,6 +21,11 @@ void GamePlay::Init()
 
     m_background.setTexture(m_context->m_asset->GetTexture(BACKGROUND));
     m_background.setTextureRect(m_context->m_window->getViewport(m_context->m_window->getDefaultView()));
+    
+    m_context->m_asset->AddTexture(PLANE, "assets/plane.png");
+    player.Init(m_context->m_asset->GetTexture(PLANE));
+    sf::Clock clock;
+
 }
 
 void GamePlay::ProcessInput()
@@ -29,17 +34,41 @@ void GamePlay::ProcessInput()
 
     while (m_context->m_window->pollEvent(ev))
     {
-        //switch (ev.type)
+        
 
         if (ev.type == sf::Event::Closed)
         {   //zamkniêcie okna
             m_context->m_window->close();
         }
+        if(sf::Keyboard::isKeyPressed( sf::Keyboard::Up))
+        {
+            direction.y = -1.0;
+        }
+        if (sf::Keyboard::isKeyPressed( sf::Keyboard::Down))
+        {
+            direction.y = 1.0;
+        }
+        if (sf::Keyboard::isKeyPressed( sf::Keyboard::Left))
+        {
+            direction.x = -1.0; 
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+        {
+            direction.x = 1.0; 
+        }
+        
+        
     }
+    
 }
 
 void GamePlay::Update(sf::Time deltaTime)
 {
+   
+
+    player.Animate(deltaTime);
+    player.Movement(deltaTime, player.getGlobalBounds(),direction,m_context->m_window->getSize());
+    direction.x = 0, direction.y = 0;
 }
 
 void GamePlay::Draw()
@@ -48,6 +77,7 @@ void GamePlay::Draw()
     m_context->m_window->draw(m_background);
     m_context->m_window->draw(rectangle);
     m_context->m_window->draw(m_Score);
+    m_context->m_window->draw(player);
   
 
     m_context->m_window->display();

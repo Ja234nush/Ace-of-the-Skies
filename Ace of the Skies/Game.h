@@ -7,6 +7,7 @@
 #include <SFML/Window.hpp>
 #include "Assetmanager.h"
 #include "Statemanager.h"
+#include <iostream>
 
 enum AssetID
 {
@@ -18,7 +19,8 @@ enum AssetID
 	CLOUD4 = 5,
 	CLOUD5 = 6,
 	CLOUD6 = 7,
-	HELI=8,
+	PLANE=8,
+	HELI=9,
 };
 
 struct Context

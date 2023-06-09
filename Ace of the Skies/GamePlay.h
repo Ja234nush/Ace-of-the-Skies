@@ -3,6 +3,7 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include "State.h"
 #include "Game.h"
+#include "Player.h"
 class GamePlay : public Engine::State
 {
 private:
@@ -12,6 +13,8 @@ private:
 	sf::Sprite m_background;
 	sf::Text m_Score;
 	sf::RectangleShape rectangle;
+	Player player;
+	sf::Vector2f direction;
 public:
 	GamePlay(std::shared_ptr<Context> &context);
 	~GamePlay();
