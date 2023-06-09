@@ -16,8 +16,9 @@ enum AssetID
 	CLOUD2 = 3,
 	CLOUD3 = 4,
 	CLOUD4 = 5,
-	CLOUD5 = 5,
-	CLOUD6 = 5,
+	CLOUD5 = 6,
+	CLOUD6 = 7,
+	HELI=8,
 };
 
 struct Context
@@ -38,7 +39,7 @@ class Game
 {
 private:
 	std::shared_ptr<Context> m_context;
-	sf::Time SecPerFrame = sf::seconds(1.f / 60.f);
+	sf::Time SecPerFrame = sf::seconds(1.f / 40.f);
 	sf::VideoMode video = sf::VideoMode(800, 600);
 	
 public:

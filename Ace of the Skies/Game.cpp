@@ -22,7 +22,7 @@ void  Game::run()
 
     sf::Clock clock;
     sf::Time TimeSinceFrame = sf::Time::Zero;
-
+    m_context->m_window->setFramerateLimit(40);
     while (m_context->m_window->isOpen())
     {   sf::Time elapsed = clock.restart();
     

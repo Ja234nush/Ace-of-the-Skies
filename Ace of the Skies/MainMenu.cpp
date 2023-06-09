@@ -2,6 +2,7 @@
 #include<ctime>;
 #include<SFML/Window/Event.hpp>
 
+
 MainMenu::MainMenu(std::shared_ptr<Context>& context):m_context(context),
 m_IsPlayButtonSelected(true), m_IsPlayButtonPressed(false),
 m_IsExitButtonSelected(false), m_IsExitButtonPressed(false)
@@ -43,9 +44,13 @@ void MainMenu::Init()
    m_context->m_asset->AddTexture(CLOUD4, "Assets/sprite_CLOUDS3.png",true);
    m_context->m_asset->AddTexture(CLOUD5, "Assets/sprite_CLOUDS4.png",true);
    m_context->m_asset->AddTexture(CLOUD6, "Assets/sprite_CLOUDS5.png",true);
-    m_background.setTexture(m_context->m_asset->GetTexture(BACKGROUND));
+   
+   
+   m_background.setTexture(m_context->m_asset->GetTexture(BACKGROUND));
     m_background.setTextureRect(m_context->m_window->getViewport(m_context->m_window->getDefaultView()));
-
+    
+    
+   
     m_clouds.setTexture(m_context->m_asset->GetTexture(CLOUD1));
     m_clouds.setPosition(sf::Vector2f(800, rand() % 600));
 
@@ -72,18 +77,24 @@ void MainMenu::Update(sf::Time deltaTime)
     {
         m_context->m_window->close();
     }
+    if (m_clouds.getGlobalBounds().width + m_clouds.getPosition().x > 0)
+    {
+        m_clouds.move(v_y*deltaTime.asSeconds(), 0);
+    }
+    else
+    {
+        // m_clouds.setPosition(sf::Vector2f(500, rand() % 400));
+        random_number = 2 + rand() % 6;
+        AssetID randomCloud = static_cast<AssetID>(random_number);
+
+        m_clouds.setTexture(m_context->m_asset->GetTexture(randomCloud));
+        m_clouds.setPosition(sf::Vector2f(600, rand() % 400));
+    }
 }
 void MainMenu::ProcessInput()
 {
     sf::Event ev;
-    if (m_clouds.getGlobalBounds().width + m_clouds.getPosition().x > 0)
-    {
-        m_clouds.move(-1, 0);
-    }
-    else
-    {
-        m_clouds.setPosition(sf::Vector2f(500, rand() % 400));
-    }
+    
     while (m_context->m_window->pollEvent(ev))
     {
         //switch (ev.type)

@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include<SFML/Graphics/Text.hpp>
+#include <random>
 
 #include "State.h"
 #include "Game.h"
@@ -20,6 +21,9 @@ class MainMenu:public Engine::State
 
 	bool m_IsExitButtonSelected;
 	bool m_IsExitButtonPressed;
+
+	int random_number;
+	float v_y = -400;
 public:
 	MainMenu(std::shared_ptr<Context> &context);
 	~MainMenu();
