@@ -49,11 +49,13 @@ void MainMenu::Init()
    m_background.setTexture(m_context->m_asset->GetTexture(BACKGROUND));
     m_background.setTextureRect(m_context->m_window->getViewport(m_context->m_window->getDefaultView()));
     
-    
-   
-    m_clouds.setTexture(m_context->m_asset->GetTexture(CLOUD1));
-    m_clouds.setPosition(sf::Vector2f(800, rand() % 600));
-
+    clouds.resize(3);
+    for (int i = 0; i < 3; i++)
+    {
+        clouds[i].setTexture(m_context->m_asset->GetTexture(CLOUD1));
+        clouds[i].setPosition(sf::Vector2f(300*i+800, rand() % 400));
+      
+    }
 }
 
 void MainMenu::Update(sf::Time deltaTime)
@@ -69,26 +71,28 @@ void MainMenu::Update(sf::Time deltaTime)
         m_ExitButton.setFillColor(sf::Color::Blue);
         m_PlayButton.setFillColor(sf::Color::White);
     }
-    if (m_IsPlayButtonPressed)
+   
+    
+    
+    for (int i = 0; i < 3; i++)
     {
-        //okno gry
-    }
-    else  if (m_IsExitButtonPressed)
+    if (clouds[i].getGlobalBounds().width + clouds[i].getPosition().x > 0)
     {
-        m_context->m_window->close();
-    }
-    if (m_clouds.getGlobalBounds().width + m_clouds.getPosition().x > 0)
-    {
-        m_clouds.move(v_y*deltaTime.asSeconds(), 0);
+        clouds[i].move(v_y*deltaTime.asSeconds(), 0);
     }
     else
     {
         // m_clouds.setPosition(sf::Vector2f(500, rand() % 400));
+
+        
         random_number = 2 + rand() % 6;
         AssetID randomCloud = static_cast<AssetID>(random_number);
+        
+        clouds[i].setTexture(m_context->m_asset->GetTexture(randomCloud));
 
-        m_clouds.setTexture(m_context->m_asset->GetTexture(randomCloud));
-        m_clouds.setPosition(sf::Vector2f(800, rand() % 400));
+        clouds[i].setPosition(sf::Vector2f(800, +rand() % 400));
+        
+    }
     }
 }
 void MainMenu::ProcessInput()
@@ -133,7 +137,7 @@ void MainMenu::ProcessInput()
                     m_IsPlayButtonPressed = true;
                     m_context->m_states->Add(std::make_unique<GamePlay>(m_context), true);
                    // m_context->m_window->setSize(world);
-                    
+                   // clouds.clear();
 
                 }
                 else
@@ -153,8 +157,11 @@ void MainMenu::Draw()
 {
 	m_context->m_window->clear(sf::Color::Black);
     m_context->m_window->draw(m_background);
-    m_context->m_window->draw(m_clouds);
-	m_context->m_window->draw(m_GameTitle);
+    for (int i = 0; i < 3; i++)
+    {
+        m_context->m_window->draw(clouds[i]);
+    }
+    m_context->m_window->draw(m_GameTitle);
 	m_context->m_window->draw(m_PlayButton);
 	m_context->m_window->draw(m_ExitButton);
 	

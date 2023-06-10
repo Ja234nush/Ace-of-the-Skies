@@ -2,6 +2,7 @@
 #include <memory>
 #include<SFML/Graphics/Text.hpp>
 #include <random>
+#include <vector>
 
 #include "State.h"
 #include "Game.h"
@@ -13,7 +14,8 @@ class MainMenu:public Engine::State
 	sf::Text m_PlayButton;
 	sf::Text m_ExitButton;
 	sf::Sprite m_background;
-	sf::Sprite m_clouds;
+	std::vector <sf::Sprite> clouds;
+	
 	sf::Vector2u world = sf::Vector2u(1200, 900);
 	
 	bool m_IsPlayButtonSelected;
