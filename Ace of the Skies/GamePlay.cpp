@@ -21,11 +21,23 @@ void GamePlay::Init()
 
     m_background.setTexture(m_context->m_asset->GetTexture(BACKGROUND));
     m_background.setTextureRect(m_context->m_window->getViewport(m_context->m_window->getDefaultView()));
-    
-    m_context->m_asset->AddTexture(PLANE, "assets/plane.png");
+ 
     player.Init(m_context->m_asset->GetTexture(PLANE));
     sf::Clock clock;
+    cloud.resize(3);
+    
+        for (int i = 0; i < 3; i++)
+        {
+            if (i < cloud.size())  // Sprawdzenie, czy i jest w zakresie indeksów wektora clouds
+            {
+            random_number = 2 + rand() % 6;
+           AssetID randomCloud = static_cast<AssetID>(random_number);
+            cloud[i].setTexture(m_context->m_asset->GetTexture(randomCloud));
+            cloud[i].setPosition(sf::Vector2f(500 * i + 800, rand() % 440));
 
+                }
+    }
+    enemy.Init(m_context->m_asset->GetTexture(HELI));
 }
 
 void GamePlay::ProcessInput()
@@ -68,16 +80,47 @@ void GamePlay::Update(sf::Time deltaTime)
 
     player.Animate(deltaTime);
     player.Movement(deltaTime, player.getGlobalBounds(),direction,m_context->m_window->getSize());
+    enemy.Animate(deltaTime);
     direction.x = 0, direction.y = 0;
+    
+    for (int i = 0; i < 3; i++)
+        {
+        if (i < cloud.size())  // Sprawdzenie, czy i jest w zakresie indeksów wektora clouds
+            {
+                 if (cloud[i].getGlobalBounds().width + cloud[i].getPosition().x > 0)
+                 {
+                  cloud[i].move(v_y * deltaTime.asSeconds(), 0);
+                 }
+                 else
+                 {
+
+
+
+                   random_number = 2 + rand() % 6;
+                   AssetID randomCloud = static_cast<AssetID>(random_number);
+
+                   cloud[i].setTexture(m_context->m_asset->GetTexture(randomCloud));
+                   
+                   cloud[i].setPosition(sf::Vector2f(50 * i + 800, rand() % 440));
+                   cloud[i].setScale(0.5, 0.5);
+
+                 }
+            }
+    }
 }
 
 void GamePlay::Draw()
 {
     m_context->m_window->clear(sf::Color::Black);
     m_context->m_window->draw(m_background);
+    for (int i = 0; i < 3; i++)
+    {
+        m_context->m_window->draw(cloud[i]);
+    }
     m_context->m_window->draw(rectangle);
     m_context->m_window->draw(m_Score);
     m_context->m_window->draw(player);
+    m_context->m_window->draw(enemy);
   
 
     m_context->m_window->display();

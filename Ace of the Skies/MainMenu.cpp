@@ -18,6 +18,16 @@ void MainMenu::Init()
 {
     srand(time(0));
 	m_context->m_asset->AddFont(Main_Font,"Arial.ttf");
+    m_context->m_asset->AddTexture(BACKGROUND, "Assets/background.png", true);
+    m_context->m_asset->AddTexture(CLOUD1, "Assets/sprite_CLOUDS0 1.png", true);
+    m_context->m_asset->AddTexture(CLOUD2, "Assets/sprite_CLOUDS1.png", true);
+    m_context->m_asset->AddTexture(CLOUD3, "Assets/sprite_CLOUDS2.png", true);
+    m_context->m_asset->AddTexture(CLOUD4, "Assets/sprite_CLOUDS3.png", true);
+    m_context->m_asset->AddTexture(CLOUD5, "Assets/sprite_CLOUDS4.png", true);
+    m_context->m_asset->AddTexture(CLOUD6, "Assets/sprite_CLOUDS5.png", true);
+    m_context->m_asset->AddTexture(PLANE, "assets/plane.png");
+    m_context->m_asset->AddTexture(HELI, "Assets/helicopter.png", true);
+
 	m_GameTitle.setFont(m_context->m_asset->GetFont(Main_Font));
 	m_GameTitle.setString("Ace of the skies");
     m_GameTitle.setOrigin(m_GameTitle.getGlobalBounds().width / 2, m_GameTitle.getGlobalBounds().height / 2);
@@ -37,13 +47,7 @@ void MainMenu::Init()
     m_ExitButton.setPosition(m_context->m_window->getSize().x / 2,( m_context->m_window->getSize().y / 2)+70.f);
     m_ExitButton.setCharacterSize(20);
 
-   m_context->m_asset->AddTexture(BACKGROUND, "Assets/background.png",true);
-   m_context->m_asset->AddTexture(CLOUD1, "Assets/sprite_CLOUDS0.png",true);
-   m_context->m_asset->AddTexture(CLOUD2, "Assets/sprite_CLOUDS1.png",true);
-   m_context->m_asset->AddTexture(CLOUD3, "Assets/sprite_CLOUDS2.png",true);
-   m_context->m_asset->AddTexture(CLOUD4, "Assets/sprite_CLOUDS3.png",true);
-   m_context->m_asset->AddTexture(CLOUD5, "Assets/sprite_CLOUDS4.png",true);
-   m_context->m_asset->AddTexture(CLOUD6, "Assets/sprite_CLOUDS5.png",true);
+  
    
    
    m_background.setTexture(m_context->m_asset->GetTexture(BACKGROUND));
@@ -52,8 +56,10 @@ void MainMenu::Init()
     clouds.resize(3);
     for (int i = 0; i < 3; i++)
     {
-        clouds[i].setTexture(m_context->m_asset->GetTexture(CLOUD1));
-        clouds[i].setPosition(sf::Vector2f(300*i+800, rand() % 400));
+        random_number = 2 + rand() % 6;
+        AssetID randomCloud = static_cast<AssetID>(random_number);
+        clouds[i].setTexture(m_context->m_asset->GetTexture(randomCloud));
+        clouds[i].setPosition(sf::Vector2f(500*i+800, rand() % 440));
       
     }
 }
@@ -82,7 +88,7 @@ void MainMenu::Update(sf::Time deltaTime)
     }
     else
     {
-        // m_clouds.setPosition(sf::Vector2f(500, rand() % 400));
+     
 
         
         random_number = 2 + rand() % 6;
@@ -90,7 +96,7 @@ void MainMenu::Update(sf::Time deltaTime)
         
         clouds[i].setTexture(m_context->m_asset->GetTexture(randomCloud));
 
-        clouds[i].setPosition(sf::Vector2f(800, +rand() % 400));
+        clouds[i].setPosition(sf::Vector2f(50*i+800, rand() % 440));
         
     }
     }
@@ -137,7 +143,7 @@ void MainMenu::ProcessInput()
                     m_IsPlayButtonPressed = true;
                     m_context->m_states->Add(std::make_unique<GamePlay>(m_context), true);
                    // m_context->m_window->setSize(world);
-                   // clouds.clear();
+                    //clouds.clear();
 
                 }
                 else
@@ -157,13 +163,14 @@ void MainMenu::Draw()
 {
 	m_context->m_window->clear(sf::Color::Black);
     m_context->m_window->draw(m_background);
+  
     for (int i = 0; i < 3; i++)
     {
         m_context->m_window->draw(clouds[i]);
     }
     m_context->m_window->draw(m_GameTitle);
-	m_context->m_window->draw(m_PlayButton);
-	m_context->m_window->draw(m_ExitButton);
+    m_context->m_window->draw(m_PlayButton);
+    m_context->m_window->draw(m_ExitButton);
 	
 	m_context->m_window->display();
 }

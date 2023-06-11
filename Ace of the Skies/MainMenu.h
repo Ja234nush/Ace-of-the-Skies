@@ -25,7 +25,7 @@ class MainMenu:public Engine::State
 	bool m_IsExitButtonPressed;
 
 	int random_number;
-	float v_y = -400;
+	float v_y = -300;
 public:
 	MainMenu(std::shared_ptr<Context> &context);
 	~MainMenu();

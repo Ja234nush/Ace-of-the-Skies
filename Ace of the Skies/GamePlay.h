@@ -4,6 +4,7 @@
 #include "State.h"
 #include "Game.h"
 #include "Player.h"
+#include "Enemy.h"
 class GamePlay : public Engine::State
 {
 private:
@@ -14,7 +15,11 @@ private:
 	sf::Text m_Score;
 	sf::RectangleShape rectangle;
 	Player player;
+	Enemy enemy;
 	sf::Vector2f direction;
+	std::vector <sf::Sprite> cloud;
+	int random_number;
+	float v_y = -300;
 public:
 	GamePlay(std::shared_ptr<Context> &context);
 	~GamePlay();
