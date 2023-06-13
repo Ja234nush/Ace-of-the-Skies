@@ -3,17 +3,19 @@
 #include<SFML/Graphics/Text.hpp>
 #include <random>
 #include <vector>
-
 #include "State.h"
 #include "Game.h"
 #include "GamePlay.h"
 class MainMenu:public Engine::State
 {private:
 	std::shared_ptr<Context> m_context;
+	std::vector <std::unique_ptr<Cloud>> cloud;
 	sf::Text m_GameTitle;
 	sf::Text m_PlayButton;
 	sf::Text m_ExitButton;
+
 	sf::Sprite m_background;
+	sf::Sprite instruct;
 	std::vector <sf::Sprite> clouds;
 	
 	sf::Vector2u world = sf::Vector2u(1200, 900);

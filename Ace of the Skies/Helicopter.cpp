@@ -30,11 +30,11 @@ void Helicopter::Animate(sf::Time DeltaTime)
 
 void Helicopter::Movement(sf::Time DeltaTime, sf::FloatRect bounds, sf::Vector2u window,float directiony)
 {	
-	if (directiony > this->getPosition().y)
+	if (directiony > (this->getPosition().y-30))
 	{
 		this->move(speed.x * DeltaTime.asSeconds(), speed.y * DeltaTime.asSeconds());
 	}
-	else if (directiony < this->getPosition().y)
+	else if (directiony <= (this->getPosition().y-30))
 	{
 		this->move(speed.x * DeltaTime.asSeconds(), speed.y * DeltaTime.asSeconds() * (-1));
 	}

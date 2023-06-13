@@ -2,8 +2,6 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
-#include <SFML/Network.hpp>
 #include <SFML/Window.hpp>
 #include "Assetmanager.h"
 #include "Statemanager.h"
@@ -26,7 +24,8 @@ enum AssetID
 	COIN = 12,
 	FUEL = 13,
 	HEAL = 14,
-	BULLET=15
+	BULLET=15,
+	INSTRUCTION=16
 };
 
 struct Context

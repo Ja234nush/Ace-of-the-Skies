@@ -17,9 +17,11 @@ namespace Engine
 
 		void AddTexture(int id,const std::string& filepath, bool isReapeted=false);
 		void AddFont(int id, const std::string& filepath);
+		
 
 		const sf::Texture& GetTexture(int id) const;
 		const sf::Font& GetFont(int id) const;
+	
 	};
 }
 

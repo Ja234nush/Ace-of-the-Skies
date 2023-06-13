@@ -13,13 +13,13 @@
 #include "Fuel.h"
 #include "Heal.h"
 #include "Bullet.h"
+#include "GameOver.h"
 
 class GamePlay : public Engine::State
 {
 private:
 	std::shared_ptr<Context> m_context;
 	sf::Time elapsed;
-	//bool m_is_paused;
 	sf::Sprite m_background;
 	sf::Text m_Score;
 	sf::Text Score;

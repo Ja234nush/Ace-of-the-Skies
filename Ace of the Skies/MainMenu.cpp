@@ -1,6 +1,7 @@
 #include "MainMenu.h"
 #include<ctime>;
 #include<SFML/Window/Event.hpp>
+#include "Cloud.h"
 
 
 MainMenu::MainMenu(std::shared_ptr<Context>& context):m_context(context),
@@ -33,25 +34,29 @@ void MainMenu::Init()
     m_context->m_asset->AddTexture(HEAL, "Assets/wrench.png", true);
     m_context->m_asset->AddTexture(COIN, "Assets/coin.png", true);
     m_context->m_asset->AddTexture(BULLET, "Assets/bullet.png", true);
+    m_context->m_asset->AddTexture(INSTRUCTION, "Assets/instruction.png", true);
 
 	m_GameTitle.setFont(m_context->m_asset->GetFont(Main_Font));
 	m_GameTitle.setString("Ace of the skies");
     m_GameTitle.setOrigin(m_GameTitle.getGlobalBounds().width / 2, m_GameTitle.getGlobalBounds().height / 2);
-    m_GameTitle.setPosition(m_context->m_window->getSize().x/2, (m_context->m_window->getSize().y / 2) - 200.f);
-
+    m_GameTitle.setPosition((m_context->m_window->getSize().x/2)-60, (m_context->m_window->getSize().y / 2) - 200.f);
+    m_GameTitle.setCharacterSize(50);
   
     m_PlayButton.setFont(m_context->m_asset->GetFont(Main_Font));
     m_PlayButton.setString("Play");
     m_PlayButton.setOrigin(m_PlayButton.getGlobalBounds().width / 2, m_PlayButton.getGlobalBounds().height / 2);
-    m_PlayButton.setPosition(m_context->m_window->getSize().x / 2, (m_context->m_window->getSize().y/2)+40.f );
-    m_PlayButton.setCharacterSize(20);
+    m_PlayButton.setPosition((m_context->m_window->getSize().x / 2)-10, (m_context->m_window->getSize().y/2)+10.f );
+    m_PlayButton.setCharacterSize(30);
     
+    instruct.setTexture(m_context->m_asset->GetTexture(INSTRUCTION));
+    instruct.setPosition(45, 330);
+    instruct.setScale(3, 3);
    
     m_ExitButton.setFont(m_context->m_asset->GetFont(Main_Font));
     m_ExitButton.setString("Exit");
     m_ExitButton.setOrigin(m_ExitButton.getGlobalBounds().width / 2, m_ExitButton.getGlobalBounds().height / 2);
-    m_ExitButton.setPosition(m_context->m_window->getSize().x / 2,( m_context->m_window->getSize().y / 2)+70.f);
-    m_ExitButton.setCharacterSize(20);
+    m_ExitButton.setPosition((m_context->m_window->getSize().x / 2) - 10,( m_context->m_window->getSize().y / 2)+60.f);
+    m_ExitButton.setCharacterSize(30);
 
   
    
@@ -59,14 +64,12 @@ void MainMenu::Init()
    m_background.setTexture(m_context->m_asset->GetTexture(BACKGROUND));
     m_background.setTextureRect(m_context->m_window->getViewport(m_context->m_window->getDefaultView()));
     
-    clouds.resize(3);
     for (int i = 0; i < 3; i++)
     {
+
         random_number = 2 + rand() % 6;
         AssetID randomCloud = static_cast<AssetID>(random_number);
-        clouds[i].setTexture(m_context->m_asset->GetTexture(randomCloud));
-        clouds[i].setPosition(sf::Vector2f(500*i+800, rand() % 440));
-      
+        cloud.emplace_back(std::make_unique<Cloud>(m_context->m_asset->GetTexture(randomCloud), sf::Vector2f(500 * i + 800, rand() % 440)));
     }
 }
 
@@ -86,26 +89,18 @@ void MainMenu::Update(sf::Time deltaTime)
    
     
     
-    for (int i = 0; i < 3; i++)
-    {
-    if (clouds[i].getGlobalBounds().width + clouds[i].getPosition().x > 0)
-    {
-        clouds[i].move(v_y*deltaTime.asSeconds(), 0);
-    }
-    else
-    {
-     
+        for (auto& i : cloud)
+        {
+            if (!i->ifonscreen(deltaTime))
+            {
+                random_number = 2 + rand() % 6;
+                AssetID randomCloud = static_cast<AssetID>(random_number);
 
-        
-        random_number = 2 + rand() % 6;
-        AssetID randomCloud = static_cast<AssetID>(random_number);
-        
-        clouds[i].setTexture(m_context->m_asset->GetTexture(randomCloud));
-
-        clouds[i].setPosition(sf::Vector2f(50*i+800, rand() % 440));
-        
-    }
-    }
+                i->setTexture(m_context->m_asset->GetTexture(randomCloud));
+                i->setPosition(sf::Vector2f(800, rand() % 440));
+                i->setScale(0.5, 0.5);
+            }
+        }
 }
 void MainMenu::ProcessInput()
 {
@@ -170,13 +165,17 @@ void MainMenu::Draw()
 	m_context->m_window->clear(sf::Color::Black);
     m_context->m_window->draw(m_background);
   
-    for (int i = 0; i < 3; i++)
+    for (auto& i : cloud)
     {
-        m_context->m_window->draw(clouds[i]);
+        if (i != nullptr)
+        {
+            m_context->m_window->draw(*i);
+
+        }
     }
     m_context->m_window->draw(m_GameTitle);
     m_context->m_window->draw(m_PlayButton);
     m_context->m_window->draw(m_ExitButton);
-	
+    m_context->m_window->draw(instruct);
 	m_context->m_window->display();
 }

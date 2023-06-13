@@ -28,7 +28,7 @@ void GamePlay::Init()
     player.Init(m_context->m_asset->GetTexture(PLANE));
     sf::Clock clock;
     
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 4; i++)
         {
             
             random_number = 2 + rand() % 6;
@@ -70,6 +70,10 @@ void GamePlay::ProcessInput()
             lastshot = sf::Time::Zero;
         }
     }
+    if (player.getFuel() <= 0 || player.getLives() <= 0)
+    {
+        m_context->m_states->Add(std::make_unique<GameOver>(m_context,player.getScore()), true);
+    }
 
     
 }
@@ -78,7 +82,11 @@ void GamePlay::Update(sf::Time deltaTime)
 {
     player.Animate(deltaTime);
     player.Movement(deltaTime, player.getGlobalBounds(),m_context->m_window->getSize());
-    
+    lastspawned += deltaTime;
+    lastspawnedbuff += deltaTime;
+    fuelusage += deltaTime;
+    lastshot += deltaTime;
+    progression += deltaTime;
     for (auto& i : cloud)
     {
         if(!i->ifonscreen(deltaTime))
@@ -91,12 +99,8 @@ void GamePlay::Update(sf::Time deltaTime)
             i->setScale(0.5, 0.5);
         }
     }
-    lastspawned += deltaTime;
-    lastspawnedbuff += deltaTime;
-    fuelusage += deltaTime;
-    lastshot += deltaTime;
-    progression += deltaTime;
-    if (progression.asSeconds() > 15.f && dificulty<4)
+    
+    if (progression.asSeconds() > 15.f&& dificulty<5 )
     {
         dificulty++;
         progression = sf::Time::Zero;
@@ -122,7 +126,6 @@ void GamePlay::Update(sf::Time deltaTime)
         lastspawned = sf::Time::Zero;
     }
     
-
     if(lastspawnedbuff.asSeconds()>(7+dificulty*0.3))
     {
         bufftype = rand() % 4;
@@ -145,25 +148,31 @@ void GamePlay::Update(sf::Time deltaTime)
     }
     for (auto& object : enemies)
     {
-        if (auto* helicopter = dynamic_cast<Helicopter*>(object.get()))
+        if (object != nullptr)
         {
-            helicopter->Animate(deltaTime);
-            helicopter->Movement(deltaTime, helicopter->getGlobalBounds(), m_context->m_window->getSize(), player.getPosition().y);
-        }
-        else if (auto* baloom = dynamic_cast<Baloon*>(object.get()))
-        {
-            baloom->Animate(deltaTime);
-            baloom->Movement(deltaTime, baloom->getGlobalBounds(), m_context->m_window->getSize());
-        }
-        else if (auto* bird = dynamic_cast<Bird*>(object.get()))
-        {
-            bird->Animate(deltaTime);
-            bird->Movement(deltaTime, bird->getGlobalBounds(), m_context->m_window->getSize());
+            if (auto* helicopter = dynamic_cast<Helicopter*>(object.get()))
+            {
+                helicopter->Animate(deltaTime);
+                helicopter->Movement(deltaTime, helicopter->getGlobalBounds(), m_context->m_window->getSize(), player.getPosition().y);
+            }
+            else if (auto* baloom = dynamic_cast<Baloon*>(object.get()))
+            {
+                baloom->Animate(deltaTime);
+                baloom->Movement(deltaTime, baloom->getGlobalBounds(), m_context->m_window->getSize());
+            }
+            else if (auto* bird = dynamic_cast<Bird*>(object.get()))
+            {
+                bird->Animate(deltaTime);
+                bird->Movement(deltaTime, bird->getGlobalBounds(), m_context->m_window->getSize());
+            }
         }
     }
     for (auto& object : bullets)
     {
-        object->fly(deltaTime);
+        if (object != nullptr)
+        {
+            object->fly(deltaTime);
+        }
     }
     if (fuelusage.asSeconds() > 1)
     {
@@ -171,8 +180,116 @@ void GamePlay::Update(sf::Time deltaTime)
         fuelusage = sf::Time::Zero;
     }
     Score.setString( std::to_string(player.getScore()));
-    health.setScale(player.getLives() / 100, 1);
+    health.setScale(player.getLives() / 100.f, 1);
     fuel.setScale(player.getFuel()/100.f, 1);
+    for (auto& object : enemies)
+    {
+        if (object != nullptr)
+        {
+            if (object->getGlobalBounds().intersects(player.getGlobalBounds()))
+            {
+                if (auto* helicopter = dynamic_cast<Helicopter*>(object.get()))
+                {
+                    object.reset();
+                    player.setLives(-20);
+                    player.setScore(-10);
+                }
+                else if (auto* baloom = dynamic_cast<Baloon*>(object.get()))
+                {
+                    object.reset();
+                    player.setLives(-10);
+                    player.setScore(-5);
+                }
+                else if (auto* bird = dynamic_cast<Bird*>(object.get()))
+                {
+                    object.reset();
+                    player.setLives(-5);
+                    player.setScore(-5);
+                }
+            }
+            if (object != nullptr)
+            {
+                if (object->getPosition().x + object->getGlobalBounds().width < 0)
+                {
+                    object.reset();
+                }
+            }
+            for (auto& shot : bullets)
+            {
+                if (object != nullptr)
+                {
+                    if (shot != nullptr)
+                    {
+                        if (object->getGlobalBounds().intersects(shot->getGlobalBounds()))
+                        {
+                            if (auto* helicopter = dynamic_cast<Helicopter*>(object.get()))
+                            {
+                                if(helicopter->getlives() == 0)
+                                {
+                                    object.reset();
+                                    shot.reset();
+                                }
+                                else
+                                {
+                                    helicopter->setlives();
+                                    shot.reset();
+                                }
+
+                            }
+                            else if (auto* baloom = dynamic_cast<Baloon*>(object.get()))
+                            {
+                                object.reset();
+                                shot.reset();
+                            }
+                            else if (auto* bird = dynamic_cast<Bird*>(object.get()))
+                            {
+                                object.reset();
+                                shot.reset();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    for (auto& object : buffs)
+    {
+        if (object != nullptr)
+        {
+            if (object->getGlobalBounds().intersects(player.getGlobalBounds()))
+            {
+                if (auto* healt = dynamic_cast<Heal*>(object.get()))
+                {
+                    if (player.getLives() < 81)
+                    {
+                        player.setLives(20);
+                    }
+                    else if (player.getLives() < 100)
+                    {
+                        player.setLives(100 - player.getLives());
+                    }
+                    object.reset();
+                }
+                if (auto* fuelt = dynamic_cast<Fuel*>(object.get()))
+                {
+                    if (player.getFuel() < 51)
+                    {
+                        player.setFuel(50);
+                    }
+                    else if (player.getFuel() < 100)
+                    {
+                        player.setFuel(100 - player.getFuel());
+                    }
+                    object.reset();
+                }
+                if (auto* coint = dynamic_cast<Coin*>(object.get()))
+                {
+                    player.setScore(20);
+                    object.reset();
+                }
+            }
+        }
+    }
 }
 
 void GamePlay::Draw()
@@ -182,19 +299,34 @@ void GamePlay::Draw()
 
     for (auto& i : cloud)
     {
-        m_context->m_window->draw(*i);
+        if (i != nullptr)
+        {
+            m_context->m_window->draw(*i);
+
+        }
     }
     for (auto& object : enemies)
     {
-        m_context->m_window->draw(*object);
+        if (object != nullptr)
+        {
+            m_context->m_window->draw(*object);
+
+        }
     }
     for (auto& object : bullets)
     {
-        m_context->m_window->draw(*object);
+        if (object != nullptr)
+        {
+            m_context->m_window->draw(*object);
+
+        }
     }
     for (auto& object : buffs)
-    {   
-        m_context->m_window->draw(*object);
+    {
+        if (object != nullptr)
+        {
+            m_context->m_window->draw(*object);
+        }
     }
     m_context->m_window->draw(rectangle);
     m_context->m_window->draw(m_Score);
@@ -203,7 +335,6 @@ void GamePlay::Draw()
     m_context->m_window->draw(underhealth);
     m_context->m_window->draw(fuel);
     m_context->m_window->draw(health);
-
     m_context->m_window->draw(player);
    
   

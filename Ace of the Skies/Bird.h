@@ -1,5 +1,7 @@
 #pragma once
 #include "Enemy.h"
+#include <random>
+#include <ctime>
 class Bird:public Enemy
 {	private:
 	sf::Texture texture;

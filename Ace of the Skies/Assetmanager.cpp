@@ -34,6 +34,8 @@ void Engine::Assetmanager::AddFont(int id, const std::string& filepath)
 	}
 }
 
+
+
 const sf::Texture& Engine::Assetmanager::GetTexture(int id) const
 {
 	return *(m_textures.at(id).get());
@@ -42,3 +44,5 @@ const sf::Font& Engine::Assetmanager::GetFont(int id) const
 {
 	return *(m_fonts.at(id).get());
 }
+
+
