@@ -158,10 +158,12 @@
     <ClCompile Include="Bird.cpp" />
     <ClCompile Include="BUFFS.cpp" />
     <ClCompile Include="Cloud.cpp" />
+    <ClCompile Include="Coin.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Fuel.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GamePlay.cpp" />
+    <ClCompile Include="Heal.cpp" />
     <ClCompile Include="Helicopter.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -174,10 +176,12 @@
     <ClInclude Include="Bird.h" />
     <ClInclude Include="BUFFS.h" />
     <ClInclude Include="Cloud.h" />
+    <ClInclude Include="Coin.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Fuel.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GamePlay.h" />
+    <ClInclude Include="Heal.h" />
     <ClInclude Include="Helicopter.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Player.h" />

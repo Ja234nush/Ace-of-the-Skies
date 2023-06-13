@@ -1,10 +1,10 @@
 #include "Bird.h"
 
-Bird::Bird(const sf::Texture& texture)
-{	srand(time(NULL));
+Bird::Bird(const sf::Texture& texture, sf::Vector2f position)
+{	
 	this->setTexture(texture);
 	this->setTextureRect(sf::IntRect(0, 0, 62, 52));
-	this->setPosition(700, rand()%500);
+	this->setPosition(position);
 	
 }
 

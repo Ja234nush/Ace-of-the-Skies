@@ -9,6 +9,10 @@
 #include "Baloon.h"
 #include "Bird.h"
 #include "Cloud.h"
+#include "Coin.h"
+#include "Fuel.h"
+#include "Heal.h"
+
 class GamePlay : public Engine::State
 {
 private:
@@ -21,11 +25,15 @@ private:
 	Player player;
 	std::vector <std::unique_ptr<Cloud>> cloud;
 	std::vector<std::unique_ptr<Enemy>> enemies;
+	std::vector<std::unique_ptr<BUFFS>> buffs;
 	int random_number;
 	sf::Time lastspawned;
+	sf::Time lastspawnedbuff;
 	int dificulty = 1;
 	int iter = 1;
+	sf::Vector2f position;
 	int enemytype;
+	int bufftype;
 	
 	
 public:

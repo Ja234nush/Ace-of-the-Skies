@@ -10,7 +10,7 @@ private:
 	sf::Vector2f speed = sf::Vector2f(-70.f, 0.f);
 	int lives = 1;
 public:
-	Baloon(const sf::Texture& texture);
+	Baloon(const sf::Texture& texture, sf::Vector2f position);
 	~Baloon();
 	void Animate(sf::Time DeltaTime);
 	void Movement(sf::Time DeltaTime, sf::FloatRect bounds, sf::Vector2u window);

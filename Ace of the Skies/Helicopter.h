@@ -11,7 +11,7 @@ private:
     int lives = 2;
 
 public:
-    Helicopter(const sf::Texture& texture);
+    Helicopter(const sf::Texture& texture,sf::Vector2f position);
     ~Helicopter();
 
      void Animate(sf::Time DeltaTime);

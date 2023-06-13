@@ -1,7 +1,5 @@
 #pragma once
 #include "Enemy.h"
-#include <random>
-#include <ctime>
 class Bird:public Enemy
 {	private:
 	sf::Texture texture;
@@ -12,7 +10,7 @@ class Bird:public Enemy
 	int random ;
 
 public:
-	Bird(const sf::Texture& texture);
+	Bird(const sf::Texture& texture, sf::Vector2f position);
 	~Bird();
 	void Animate(sf::Time DeltaTime);
 	void Movement(sf::Time DeltaTime, sf::FloatRect bounds, sf::Vector2u window);

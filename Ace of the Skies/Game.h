@@ -19,10 +19,13 @@ enum AssetID
 	CLOUD4 = 5,
 	CLOUD5 = 6,
 	CLOUD6 = 7,
-	PLANE=8,
-	HELI=9,
-	BALLON=10,
-	BIRD=11,
+	PLANE = 8,
+	HELI = 9,
+	BALLON = 10,
+	BIRD = 11,
+	COIN = 12,
+	FUEL = 13,
+	HEAL = 14
 };
 
 struct Context

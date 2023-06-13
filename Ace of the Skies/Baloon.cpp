@@ -1,12 +1,10 @@
 #include "Baloon.h"
-#include <random>
-#include <ctime>
-Baloon::Baloon(const sf::Texture& texture)
+
+Baloon::Baloon(const sf::Texture& texture, sf::Vector2f position)
 {
-	srand(time(NULL));
 	this->setTexture(texture);
 	this->setTextureRect(sf::IntRect(0, 0, 52, 84));
-	this->setPosition(700, rand() % 500);
+	this->setPosition(position);
 }
 
 Baloon::~Baloon()

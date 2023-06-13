@@ -3,12 +3,12 @@
 #include <ctime>
 
 
-Helicopter::Helicopter(const sf::Texture& texture)
+Helicopter::Helicopter(const sf::Texture& texture, sf::Vector2f position)
 {
 	srand(time(NULL));
 	this->setTexture(texture);
 	this->setTextureRect(sf::IntRect(0, 0, 150, 42));
-	this->setPosition(700, rand()%500);
+	this->setPosition(position);
 }
 
 Helicopter::~Helicopter()

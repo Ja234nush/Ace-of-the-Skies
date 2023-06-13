@@ -74,22 +74,46 @@ void GamePlay::Update(sf::Time deltaTime)
     {
         enemytype = rand() % 3;
         if (enemytype == 0)
-        {
-            enemies.emplace_back(std::make_unique<Helicopter>(m_context->m_asset->GetTexture(HELI)));
+        {   
+            position = sf::Vector2f(800.f, rand() % 500);
+            enemies.emplace_back(std::make_unique<Helicopter>(m_context->m_asset->GetTexture(HELI),position));
         }
         else if (enemytype == 1)
         {
-            enemies.emplace_back(std::make_unique<Baloon>(m_context->m_asset->GetTexture(BALLON)));
+            position = sf::Vector2f(800.f, rand() % 500);
+            enemies.emplace_back(std::make_unique<Baloon>(m_context->m_asset->GetTexture(BALLON),position));
         }
         else if (enemytype == 2)
         {
-            enemies.emplace_back(std::make_unique<Bird>(m_context->m_asset->GetTexture(BIRD)));
+            position = sf::Vector2f(800.f, rand() % 500);
+            enemies.emplace_back(std::make_unique<Bird>(m_context->m_asset->GetTexture(BIRD),position));
         }
         lastspawned = sf::Time::Zero;
     }
+    lastspawnedbuff += deltaTime;
+   // std::cout << lastspawnedbuff.asSeconds() << std::endl;
+    if(lastspawnedbuff.asSeconds()>(7+dificulty*0.5))
+    {
+        bufftype = rand() % 3;
+        if (bufftype == 0)
+        {   
+            position = sf::Vector2f(rand() % 700, rand() % 500);
+            buffs.emplace_back(std::make_unique<Heal>(m_context->m_asset->GetTexture(HEAL),position));
+        }
+        else if (bufftype == 1)
+        {
+            position = sf::Vector2f(rand() % 700, rand() % 500);
+            buffs.emplace_back(std::make_unique<Fuel>(m_context->m_asset->GetTexture(FUEL),position));
+        }
+        else if (bufftype == 2)
+        {
+            position = sf::Vector2f(rand() % 700, rand() % 500);
+            buffs.emplace_back(std::make_unique<Coin>(m_context->m_asset->GetTexture(COIN),position));
+        }
+        lastspawnedbuff = sf::Time::Zero;
+    }
     for (auto& object : enemies)
     {
-        std::cout << iter << std::endl;
         if (auto* helicopter = dynamic_cast<Helicopter*>(object.get()))
         {
             helicopter->Animate(deltaTime);
@@ -118,6 +142,11 @@ void GamePlay::Draw()
     }
     for (auto& object : enemies)
     {
+        m_context->m_window->draw(*object);
+    }
+    for (auto& object : buffs)
+    {   
+        std::cout << 2 << std::endl;
         m_context->m_window->draw(*object);
     }
     m_context->m_window->draw(rectangle);
