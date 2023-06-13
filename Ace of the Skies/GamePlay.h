@@ -36,6 +36,10 @@ private:
 	int iter = 1;
 	sf::Vector2f position;
 	sf::Vector2f positionplayer;
+	sf::RectangleShape health;
+	sf::RectangleShape underhealth;
+	sf::RectangleShape fuel;
+	sf::RectangleShape underfuel;
 	int enemytype;
 	int bufftype;
 	

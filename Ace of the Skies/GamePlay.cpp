@@ -26,14 +26,26 @@ void GamePlay::Init()
     sf::Clock clock;
   //  cloud.resize(3);
     
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 5; i++)
         {
             
             random_number = 2 + rand() % 6;
            AssetID randomCloud = static_cast<AssetID>(random_number);
            cloud.emplace_back(std::make_unique<Cloud>(m_context->m_asset->GetTexture(randomCloud), sf::Vector2f(500 * i + 800, rand() % 440))); 
-    }
-        
+        }   
+            health = sf::RectangleShape((sf::Vector2f(100.f, 20.f)));
+            health.setFillColor(sf::Color::Red);
+            health.setPosition(500.f, 570.f); 
+            underhealth = sf::RectangleShape((sf::Vector2f(106.f, 24.f)));
+            underhealth.setFillColor(sf::Color::White);
+            underhealth.setPosition(497.f, 568.f);
+            fuel = sf::RectangleShape((sf::Vector2f(100.f, 20.f)));
+            fuel.setFillColor(sf::Color::Yellow);
+            fuel.setPosition(300.f, 570.f); 
+            underfuel = sf::RectangleShape((sf::Vector2f(106.f, 24.f)));
+            underfuel.setFillColor(sf::Color::White);
+            underfuel.setPosition(297.f, 568.f);
+            
 }
 
 void GamePlay::ProcessInput()
@@ -148,6 +160,7 @@ void GamePlay::Draw()
 {
     m_context->m_window->clear(sf::Color::Black);
     m_context->m_window->draw(m_background);
+
     for (auto& i : cloud)
     {
         m_context->m_window->draw(*i);
@@ -167,6 +180,11 @@ void GamePlay::Draw()
     }
     m_context->m_window->draw(rectangle);
     m_context->m_window->draw(m_Score);
+    m_context->m_window->draw(underfuel);
+    m_context->m_window->draw(underhealth);
+    m_context->m_window->draw(fuel);
+    m_context->m_window->draw(health);
+
     m_context->m_window->draw(player);
    
   
