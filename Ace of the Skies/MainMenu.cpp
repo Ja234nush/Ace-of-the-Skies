@@ -32,6 +32,7 @@ void MainMenu::Init()
     m_context->m_asset->AddTexture(FUEL, "Assets/gasoline.png", true);
     m_context->m_asset->AddTexture(HEAL, "Assets/wrench.png", true);
     m_context->m_asset->AddTexture(COIN, "Assets/coin.png", true);
+    m_context->m_asset->AddTexture(BULLET, "Assets/bullet.png", true);
 
 	m_GameTitle.setFont(m_context->m_asset->GetFont(Main_Font));
 	m_GameTitle.setString("Ace of the skies");

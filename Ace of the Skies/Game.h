@@ -25,7 +25,8 @@ enum AssetID
 	BIRD = 11,
 	COIN = 12,
 	FUEL = 13,
-	HEAL = 14
+	HEAL = 14,
+	BULLET=15
 };
 
 struct Context

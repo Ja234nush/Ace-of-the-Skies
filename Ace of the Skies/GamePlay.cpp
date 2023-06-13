@@ -43,12 +43,20 @@ void GamePlay::ProcessInput()
     while (m_context->m_window->pollEvent(ev))
     {
         
-
         if (ev.type == sf::Event::Closed)
         {   //zamkniêcie okna
             m_context->m_window->close();
         }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+        if (lastshot.asSeconds() > 0.5)
+        {
+            positionplayer.x = player.getPosition().x + player.getGlobalBounds().width/2;
+            positionplayer.y = player.getPosition().y + player.getGlobalBounds().height/2;
+            bullets.emplace_back(std::make_unique<Bullet>(m_context->m_asset->GetTexture(BULLET),positionplayer ));
+            lastshot = sf::Time::Zero;
+        }
     }
+
     
 }
 
@@ -56,7 +64,7 @@ void GamePlay::Update(sf::Time deltaTime)
 {
     player.Animate(deltaTime);
     player.Movement(deltaTime, player.getGlobalBounds(),m_context->m_window->getSize());
-    
+    lastshot += deltaTime;
     for (auto& i : cloud)
     {
         if(!i->ifonscreen(deltaTime))
@@ -129,7 +137,11 @@ void GamePlay::Update(sf::Time deltaTime)
             bird->Animate(deltaTime);
             bird->Movement(deltaTime, bird->getGlobalBounds(), m_context->m_window->getSize());
         }
-    }iter = 1;
+    }
+    for (auto& object : bullets)
+    {
+        object->fly(deltaTime);
+    }
 }
 
 void GamePlay::Draw()
@@ -141,6 +153,10 @@ void GamePlay::Draw()
         m_context->m_window->draw(*i);
     }
     for (auto& object : enemies)
+    {
+        m_context->m_window->draw(*object);
+    }
+    for (auto& object : bullets)
     {
         m_context->m_window->draw(*object);
     }

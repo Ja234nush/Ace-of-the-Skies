@@ -157,6 +157,7 @@
     <ClCompile Include="Baloon.cpp" />
     <ClCompile Include="Bird.cpp" />
     <ClCompile Include="BUFFS.cpp" />
+    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Cloud.cpp" />
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="Enemy.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="Baloon.h" />
     <ClInclude Include="Bird.h" />
     <ClInclude Include="BUFFS.h" />
+    <ClInclude Include="Bullet.h" />
     <ClInclude Include="Cloud.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="Enemy.h" />

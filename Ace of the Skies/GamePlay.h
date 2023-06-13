@@ -12,6 +12,7 @@
 #include "Coin.h"
 #include "Fuel.h"
 #include "Heal.h"
+#include "Bullet.h"
 
 class GamePlay : public Engine::State
 {
@@ -26,12 +27,15 @@ private:
 	std::vector <std::unique_ptr<Cloud>> cloud;
 	std::vector<std::unique_ptr<Enemy>> enemies;
 	std::vector<std::unique_ptr<BUFFS>> buffs;
+	std::vector<std::unique_ptr<Bullet>> bullets;
 	int random_number;
 	sf::Time lastspawned;
 	sf::Time lastspawnedbuff;
+	sf::Time lastshot=sf::Time::Zero;
 	int dificulty = 1;
 	int iter = 1;
 	sf::Vector2f position;
+	sf::Vector2f positionplayer;
 	int enemytype;
 	int bufftype;
 	
