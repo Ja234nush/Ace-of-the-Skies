@@ -1,25 +1,33 @@
 #pragma once
 #include <memory>
-#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics.hpp>
 #include "State.h"
 #include "Game.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "Helicopter.h"
+#include "Baloon.h"
+#include "Bird.h"
+#include "Cloud.h"
 class GamePlay : public Engine::State
 {
 private:
 	std::shared_ptr<Context> m_context;
 	sf::Time elapsed;
-	bool m_is_paused;
+	//bool m_is_paused;
 	sf::Sprite m_background;
 	sf::Text m_Score;
 	sf::RectangleShape rectangle;
 	Player player;
-	Enemy enemy;
-	sf::Vector2f direction;
-	std::vector <sf::Sprite> cloud;
+	std::vector <std::unique_ptr<Cloud>> cloud;
+	std::vector<std::unique_ptr<Enemy>> enemies;
 	int random_number;
-	float v_y = -300;
+	sf::Time lastspawned;
+	int dificulty = 1;
+	int iter = 1;
+	int enemytype;
+	
+	
 public:
 	GamePlay(std::shared_ptr<Context> &context);
 	~GamePlay();

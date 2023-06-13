@@ -25,18 +25,18 @@ void  Game::run()
     m_context->m_window->setFramerateLimit(40);
     while (m_context->m_window->isOpen())
     {   sf::Time elapsed = clock.restart();
-    
-        while (TimeSinceFrame<SecPerFrame)
+        TimeSinceFrame += elapsed;
+        if (TimeSinceFrame>SecPerFrame)
             {
-            TimeSinceFrame += elapsed;
+            
     
                  m_context->m_states->ProcessStateChanges();
                  m_context->m_states->getCurrent()->ProcessInput();
                  m_context->m_states->getCurrent()->Update(SecPerFrame);
                  m_context->m_states->getCurrent()->Draw();
-                 //std::cout << "1:  " << elapsed.asSeconds() << "/    2:  " << SecPerFrame.asSeconds() << std::endl;
+                 //std::cout << "1:  " << TimeSinceFrame.asSeconds() << "/    2:  " << SecPerFrame.asSeconds() << std::endl;
 
-       
+                 TimeSinceFrame = sf::Time::Zero;
      
             }
     }

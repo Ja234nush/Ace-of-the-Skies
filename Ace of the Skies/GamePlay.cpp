@@ -24,20 +24,16 @@ void GamePlay::Init()
  
     player.Init(m_context->m_asset->GetTexture(PLANE));
     sf::Clock clock;
-    cloud.resize(3);
+  //  cloud.resize(3);
     
         for (int i = 0; i < 3; i++)
         {
-            if (i < cloud.size())  // Sprawdzenie, czy i jest w zakresie indeksów wektora clouds
-            {
+            
             random_number = 2 + rand() % 6;
            AssetID randomCloud = static_cast<AssetID>(random_number);
-            cloud[i].setTexture(m_context->m_asset->GetTexture(randomCloud));
-            cloud[i].setPosition(sf::Vector2f(500 * i + 800, rand() % 440));
-
-                }
+           cloud.emplace_back(std::make_unique<Cloud>(m_context->m_asset->GetTexture(randomCloud), sf::Vector2f(500 * i + 800, rand() % 440))); 
     }
-    enemy.Init(m_context->m_asset->GetTexture(HELI));
+        
 }
 
 void GamePlay::ProcessInput()
@@ -52,75 +48,82 @@ void GamePlay::ProcessInput()
         {   //zamkniêcie okna
             m_context->m_window->close();
         }
-        if(sf::Keyboard::isKeyPressed( sf::Keyboard::Up))
-        {
-            direction.y = -1.0;
-        }
-        if (sf::Keyboard::isKeyPressed( sf::Keyboard::Down))
-        {
-            direction.y = 1.0;
-        }
-        if (sf::Keyboard::isKeyPressed( sf::Keyboard::Left))
-        {
-            direction.x = -1.0; 
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-        {
-            direction.x = 1.0; 
-        }
-        
-        
     }
     
 }
 
 void GamePlay::Update(sf::Time deltaTime)
 {
-   
-
     player.Animate(deltaTime);
-    player.Movement(deltaTime, player.getGlobalBounds(),direction,m_context->m_window->getSize());
-    enemy.Animate(deltaTime);
-    direction.x = 0, direction.y = 0;
+    player.Movement(deltaTime, player.getGlobalBounds(),m_context->m_window->getSize());
     
-    for (int i = 0; i < 3; i++)
+    for (auto& i : cloud)
+    {
+        if(!i->ifonscreen(deltaTime))
         {
-        if (i < cloud.size())  // Sprawdzenie, czy i jest w zakresie indeksów wektora clouds
-            {
-                 if (cloud[i].getGlobalBounds().width + cloud[i].getPosition().x > 0)
-                 {
-                  cloud[i].move(v_y * deltaTime.asSeconds(), 0);
-                 }
-                 else
-                 {
+            random_number = 2 + rand() % 6;
+            AssetID randomCloud = static_cast<AssetID>(random_number);
 
-
-
-                   random_number = 2 + rand() % 6;
-                   AssetID randomCloud = static_cast<AssetID>(random_number);
-
-                   cloud[i].setTexture(m_context->m_asset->GetTexture(randomCloud));
-                   
-                   cloud[i].setPosition(sf::Vector2f(50 * i + 800, rand() % 440));
-                   cloud[i].setScale(0.5, 0.5);
-
-                 }
-            }
+            i->setTexture(m_context->m_asset->GetTexture(randomCloud));
+            i->setPosition(sf::Vector2f(800, rand() % 440));
+            i->setScale(0.5, 0.5);
+        }
     }
+    lastspawned += deltaTime;
+    if(lastspawned.asSeconds()>(3-dificulty*0.5))
+    {
+        enemytype = rand() % 3;
+        if (enemytype == 0)
+        {
+            enemies.emplace_back(std::make_unique<Helicopter>(m_context->m_asset->GetTexture(HELI)));
+        }
+        else if (enemytype == 1)
+        {
+            enemies.emplace_back(std::make_unique<Baloon>(m_context->m_asset->GetTexture(BALLON)));
+        }
+        else if (enemytype == 2)
+        {
+            enemies.emplace_back(std::make_unique<Bird>(m_context->m_asset->GetTexture(BIRD)));
+        }
+        lastspawned = sf::Time::Zero;
+    }
+    for (auto& object : enemies)
+    {
+        std::cout << iter << std::endl;
+        if (auto* helicopter = dynamic_cast<Helicopter*>(object.get()))
+        {
+            helicopter->Animate(deltaTime);
+            helicopter->Movement(deltaTime, helicopter->getGlobalBounds(), m_context->m_window->getSize(), player.getPosition().y);
+        }
+        else if (auto* baloom = dynamic_cast<Baloon*>(object.get()))
+        {
+            baloom->Animate(deltaTime);
+            baloom->Movement(deltaTime, baloom->getGlobalBounds(), m_context->m_window->getSize());
+        }
+        else if (auto* bird = dynamic_cast<Bird*>(object.get()))
+        {
+            bird->Animate(deltaTime);
+            bird->Movement(deltaTime, bird->getGlobalBounds(), m_context->m_window->getSize());
+        }
+    }iter = 1;
 }
 
 void GamePlay::Draw()
 {
     m_context->m_window->clear(sf::Color::Black);
     m_context->m_window->draw(m_background);
-    for (int i = 0; i < 3; i++)
+    for (auto& i : cloud)
     {
-        m_context->m_window->draw(cloud[i]);
+        m_context->m_window->draw(*i);
+    }
+    for (auto& object : enemies)
+    {
+        m_context->m_window->draw(*object);
     }
     m_context->m_window->draw(rectangle);
     m_context->m_window->draw(m_Score);
     m_context->m_window->draw(player);
-    m_context->m_window->draw(enemy);
+   
   
 
     m_context->m_window->display();

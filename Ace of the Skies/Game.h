@@ -21,6 +21,8 @@ enum AssetID
 	CLOUD6 = 7,
 	PLANE=8,
 	HELI=9,
+	BALLON=10,
+	BIRD=11,
 };
 
 struct Context

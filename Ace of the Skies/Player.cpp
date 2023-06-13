@@ -28,15 +28,47 @@ void Player::Animate(sf::Time DeltaTime)
 		//std::cout << Del << std::endl;
 		this->setTextureRect(sf::IntRect(frame * 99 , 0, 99, 99));
 		accumulatedtime = 0;
+        acceleration.y += 1;
+        if (frame % 10 == 0)
+        {
+            score += 1;
+        }
 	}
 	}
 
-void Player::Movement(sf::Time DeltaTime, sf::FloatRect bounds, sf::Vector2f direction,sf::Vector2u window)
-{   
+void Player::Movement(sf::Time DeltaTime, sf::FloatRect bounds,sf::Vector2u window)
+{
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+    {
+        direction.y = -1.0;
+        acceleration.y = 4.f;
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+    {
+        direction.y = 1.0;
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+    {
+        direction.x = -1.0;
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+    {
+        direction.x = 1.0;
+    }
+    
     this->move(direction.x * speed.x * DeltaTime.asSeconds(), direction.y * speed.y * DeltaTime.asSeconds());
     this->borders(bounds, window);
-    this->move(gravity.x, gravity.y * DeltaTime.asSeconds());
-}
+    if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+        direction.y = 0;
+    }
+    if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+        direction.x = 0;
+    }
+    this->move(acceleration.x, acceleration.y * DeltaTime.asSeconds());
+   
+        
+    
+    }
 
 void Player::borders(sf::FloatRect bounds,sf::Vector2u window)
 {
@@ -61,5 +93,31 @@ void Player::borders(sf::FloatRect bounds,sf::Vector2u window)
         }
     
 }
+
+void Player::setLives(int i)
+{
+}
+
+void Player::setFuel(int i)
+{
+}
+
+void Player::setScore(int i)
+{
+}
+
+void Player::getLives()
+{
+}
+
+void Player::getFuel()
+{
+}
+
+void Player::getScore()
+{
+}
+
+
 
 

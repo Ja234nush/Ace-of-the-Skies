@@ -27,6 +27,8 @@ void MainMenu::Init()
     m_context->m_asset->AddTexture(CLOUD6, "Assets/sprite_CLOUDS5.png", true);
     m_context->m_asset->AddTexture(PLANE, "assets/plane.png");
     m_context->m_asset->AddTexture(HELI, "Assets/helicopter.png", true);
+    m_context->m_asset->AddTexture(BALLON, "Assets/baloon.png", true);
+    m_context->m_asset->AddTexture(BIRD, "Assets/bird.png", true);
 
 	m_GameTitle.setFont(m_context->m_asset->GetFont(Main_Font));
 	m_GameTitle.setString("Ace of the skies");

@@ -154,9 +154,15 @@
   <ItemGroup>
     <ClCompile Include="Ace_of_the _skies.cpp" />
     <ClCompile Include="Assetmanager.cpp" />
+    <ClCompile Include="Baloon.cpp" />
+    <ClCompile Include="Bird.cpp" />
+    <ClCompile Include="BUFFS.cpp" />
+    <ClCompile Include="Cloud.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="Fuel.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GamePlay.cpp" />
+    <ClCompile Include="Helicopter.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="State.cpp" />
@@ -164,9 +170,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Assetmanager.h" />
+    <ClInclude Include="Baloon.h" />
+    <ClInclude Include="Bird.h" />
+    <ClInclude Include="BUFFS.h" />
+    <ClInclude Include="Cloud.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Fuel.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GamePlay.h" />
+    <ClInclude Include="Helicopter.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="State.h" />

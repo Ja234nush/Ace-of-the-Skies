@@ -1,5 +1,5 @@
 #pragma once
-#include <list>
+
 #include <SFML/Graphics.hpp>
 class Enemy: public sf::Sprite
 {   private:
@@ -13,10 +13,7 @@ class Enemy: public sf::Sprite
         Enemy();
         ~Enemy();
 
-        void Init(const sf::Texture& texture);
-        void Animate(sf::Time DeltaTime);
-        void Movement(sf::Time DeltaTime, sf::FloatRect bounds, sf::Vector2u window);
-        void borders(sf::FloatRect bounds, sf::Vector2u window);
+        virtual void borders(sf::FloatRect bounds, sf::Vector2u window);
 
     
    
