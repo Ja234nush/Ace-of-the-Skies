@@ -17,9 +17,9 @@ public:
     void setLives(int i);
     void setFuel(int i);
     void setScore(int i);
-    void getLives();
-    void getFuel();
-    void getScore();
+    int getLives();
+    int getFuel();
+    int getScore();
    
 
 private:

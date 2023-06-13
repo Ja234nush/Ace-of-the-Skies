@@ -96,26 +96,32 @@ void Player::borders(sf::FloatRect bounds,sf::Vector2u window)
 
 void Player::setLives(int i)
 {
+    lives += i;
 }
 
 void Player::setFuel(int i)
 {
+    fuel += i;
 }
 
 void Player::setScore(int i)
 {
+    score += i;
 }
 
-void Player::getLives()
+int Player::getLives()
 {
+    return lives;
 }
 
-void Player::getFuel()
+int Player::getFuel()
 {
+    return fuel;
 }
 
-void Player::getScore()
+int Player::getScore()
 {
+    return score;
 }
 
 

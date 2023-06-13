@@ -22,6 +22,7 @@ private:
 	//bool m_is_paused;
 	sf::Sprite m_background;
 	sf::Text m_Score;
+	sf::Text Score;
 	sf::RectangleShape rectangle;
 	Player player;
 	std::vector <std::unique_ptr<Cloud>> cloud;
@@ -32,6 +33,8 @@ private:
 	sf::Time lastspawned;
 	sf::Time lastspawnedbuff;
 	sf::Time lastshot=sf::Time::Zero;
+	sf::Time fuelusage=sf::Time::Zero;
+	sf::Time progression=sf::Time::Zero;
 	int dificulty = 1;
 	int iter = 1;
 	sf::Vector2f position;

@@ -12,8 +12,11 @@ void GamePlay::Init()
 {
     m_Score.setFont(m_context->m_asset->GetFont(Main_Font));
     m_Score.setString("Score");
-    m_Score.setPosition(700 , 550);
+    m_Score.setPosition(650 , 560);
     m_Score.setCharacterSize(20);
+    Score.setFont(m_context->m_asset->GetFont(Main_Font));
+    Score.setPosition(730 , 560);
+    Score.setCharacterSize(20);
 
     rectangle.setSize(sf::Vector2f(800, 50));
     rectangle.setPosition(sf::Vector2f(0, 550));
@@ -24,7 +27,6 @@ void GamePlay::Init()
  
     player.Init(m_context->m_asset->GetTexture(PLANE));
     sf::Clock clock;
-  //  cloud.resize(3);
     
         for (int i = 0; i < 5; i++)
         {
@@ -33,18 +35,18 @@ void GamePlay::Init()
            AssetID randomCloud = static_cast<AssetID>(random_number);
            cloud.emplace_back(std::make_unique<Cloud>(m_context->m_asset->GetTexture(randomCloud), sf::Vector2f(500 * i + 800, rand() % 440))); 
         }   
-            health = sf::RectangleShape((sf::Vector2f(100.f, 20.f)));
+            health = sf::RectangleShape((sf::Vector2f(200.f, 20.f)));
             health.setFillColor(sf::Color::Red);
-            health.setPosition(500.f, 570.f); 
-            underhealth = sf::RectangleShape((sf::Vector2f(106.f, 24.f)));
+            health.setPosition(400.f, 565.f); 
+            underhealth = sf::RectangleShape((sf::Vector2f(206.f, 24.f)));
             underhealth.setFillColor(sf::Color::White);
-            underhealth.setPosition(497.f, 568.f);
-            fuel = sf::RectangleShape((sf::Vector2f(100.f, 20.f)));
+            underhealth.setPosition(397.f, 563.f);
+            fuel = sf::RectangleShape((sf::Vector2f(200.f, 20.f)));
             fuel.setFillColor(sf::Color::Yellow);
-            fuel.setPosition(300.f, 570.f); 
-            underfuel = sf::RectangleShape((sf::Vector2f(106.f, 24.f)));
+            fuel.setPosition(100.f, 565.f); 
+            underfuel = sf::RectangleShape((sf::Vector2f(206.f, 24.f)));
             underfuel.setFillColor(sf::Color::White);
-            underfuel.setPosition(297.f, 568.f);
+            underfuel.setPosition(97.f, 563.f);
             
 }
 
@@ -76,7 +78,7 @@ void GamePlay::Update(sf::Time deltaTime)
 {
     player.Animate(deltaTime);
     player.Movement(deltaTime, player.getGlobalBounds(),m_context->m_window->getSize());
-    lastshot += deltaTime;
+    
     for (auto& i : cloud)
     {
         if(!i->ifonscreen(deltaTime))
@@ -90,7 +92,16 @@ void GamePlay::Update(sf::Time deltaTime)
         }
     }
     lastspawned += deltaTime;
-    if(lastspawned.asSeconds()>(3-dificulty*0.5))
+    lastspawnedbuff += deltaTime;
+    fuelusage += deltaTime;
+    lastshot += deltaTime;
+    progression += deltaTime;
+    if (progression.asSeconds() > 15.f && dificulty<4)
+    {
+        dificulty++;
+        progression = sf::Time::Zero;
+    }
+    if(lastspawned.asSeconds()>(3-dificulty*0.3))
     {
         enemytype = rand() % 3;
         if (enemytype == 0)
@@ -110,17 +121,17 @@ void GamePlay::Update(sf::Time deltaTime)
         }
         lastspawned = sf::Time::Zero;
     }
-    lastspawnedbuff += deltaTime;
-   // std::cout << lastspawnedbuff.asSeconds() << std::endl;
-    if(lastspawnedbuff.asSeconds()>(7+dificulty*0.5))
+    
+
+    if(lastspawnedbuff.asSeconds()>(7+dificulty*0.3))
     {
-        bufftype = rand() % 3;
+        bufftype = rand() % 4;
         if (bufftype == 0)
         {   
             position = sf::Vector2f(rand() % 700, rand() % 500);
             buffs.emplace_back(std::make_unique<Heal>(m_context->m_asset->GetTexture(HEAL),position));
         }
-        else if (bufftype == 1)
+        else if (bufftype == 1||bufftype==3)
         {
             position = sf::Vector2f(rand() % 700, rand() % 500);
             buffs.emplace_back(std::make_unique<Fuel>(m_context->m_asset->GetTexture(FUEL),position));
@@ -154,6 +165,14 @@ void GamePlay::Update(sf::Time deltaTime)
     {
         object->fly(deltaTime);
     }
+    if (fuelusage.asSeconds() > 1)
+    {
+        player.setFuel(-3);
+        fuelusage = sf::Time::Zero;
+    }
+    Score.setString( std::to_string(player.getScore()));
+    health.setScale(player.getLives() / 100, 1);
+    fuel.setScale(player.getFuel()/100.f, 1);
 }
 
 void GamePlay::Draw()
@@ -175,11 +194,11 @@ void GamePlay::Draw()
     }
     for (auto& object : buffs)
     {   
-        std::cout << 2 << std::endl;
         m_context->m_window->draw(*object);
     }
     m_context->m_window->draw(rectangle);
     m_context->m_window->draw(m_Score);
+    m_context->m_window->draw(Score);
     m_context->m_window->draw(underfuel);
     m_context->m_window->draw(underhealth);
     m_context->m_window->draw(fuel);
