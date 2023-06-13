@@ -2,6 +2,7 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <SFML/Window.hpp>
 #include "Assetmanager.h"
 #include "Statemanager.h"
@@ -48,6 +49,7 @@ private:
 	std::shared_ptr<Context> m_context;
 	sf::Time SecPerFrame = sf::seconds(1.f / 40.f);
 	sf::VideoMode video = sf::VideoMode(800, 600);
+	sf::Music music;
 	
 public:
 	//konstruktory / destruktory

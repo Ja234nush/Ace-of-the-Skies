@@ -12,11 +12,11 @@ GameOver::~GameOver()
 void GameOver::Init()
 {
 	scoring.setFont(m_context->m_asset->GetFont(Main_Font));
-	scoring.setPosition(350.f, 300.f);
+	scoring.setPosition(270.f, 300.f);
 	scoring.setString("Your score: "+std::to_string(points));
 	scoring.setCharacterSize(40);
 	losing.setFont(m_context->m_asset->GetFont(Main_Font));
-	losing.setPosition(300.f, 200.f);
+	losing.setPosition(200.f, 200.f);
 	losing.setString(" GAME OVER ");
 	losing.setCharacterSize(60);
 

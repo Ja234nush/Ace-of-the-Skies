@@ -248,6 +248,12 @@ void GamePlay::Update(sf::Time deltaTime)
                             }
                         }
                     }
+                }if (shot != nullptr)
+                {
+                    if (shot->getPosition().x > 800)
+                    {
+                        shot.reset();
+                    }
                 }
             }
         }

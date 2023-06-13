@@ -19,7 +19,12 @@ void  Game::run()
 {  
     sf::CircleShape circle(100);
     circle.setFillColor(sf::Color::Red);
-
+    if (!music.openFromFile("Assets/music.wav"))
+    {
+        std::cout << "error" << std::endl;
+    }
+    music.setVolume(0.5);
+    music.play();
     sf::Clock clock;
     sf::Time TimeSinceFrame = sf::Time::Zero;
     m_context->m_window->setFramerateLimit(40);

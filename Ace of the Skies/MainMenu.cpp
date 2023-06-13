@@ -58,8 +58,8 @@ void MainMenu::Init()
     m_ExitButton.setPosition((m_context->m_window->getSize().x / 2) - 10,( m_context->m_window->getSize().y / 2)+60.f);
     m_ExitButton.setCharacterSize(30);
 
-  
-   
+    
+    
    
    m_background.setTexture(m_context->m_asset->GetTexture(BACKGROUND));
     m_background.setTextureRect(m_context->m_window->getViewport(m_context->m_window->getDefaultView()));
@@ -177,5 +177,6 @@ void MainMenu::Draw()
     m_context->m_window->draw(m_PlayButton);
     m_context->m_window->draw(m_ExitButton);
     m_context->m_window->draw(instruct);
+
 	m_context->m_window->display();
 }

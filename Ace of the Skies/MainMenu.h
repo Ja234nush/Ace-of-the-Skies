@@ -13,7 +13,6 @@ class MainMenu:public Engine::State
 	sf::Text m_GameTitle;
 	sf::Text m_PlayButton;
 	sf::Text m_ExitButton;
-
 	sf::Sprite m_background;
 	sf::Sprite instruct;
 	std::vector <sf::Sprite> clouds;
