@@ -7,7 +7,7 @@
 #include "Assetmanager.h"
 #include "Statemanager.h"
 #include <iostream>
-
+//typ wyliczeniowy przechowuj¹cy tekstury i czcionki
 enum AssetID
 {
 	Main_Font = 0,
@@ -29,7 +29,7 @@ enum AssetID
 	INSTRUCTION=16
 };
 
-struct Context
+struct Context// przechowuj¹ca unikalne wskaŸniki na Assetmanager, StateManager oraz RenderWindow.
 {
 	std::unique_ptr<Engine::Assetmanager> m_asset;
 	std::unique_ptr<Engine::StateManager> m_states;
@@ -47,9 +47,9 @@ class Game
 {
 private:
 	std::shared_ptr<Context> m_context;
-	sf::Time SecPerFrame = sf::seconds(1.f / 40.f);
-	sf::VideoMode video = sf::VideoMode(800, 600);
-	sf::Music music;
+	sf::Time SecPerFrame = sf::seconds(1.f / 40.f); //Czas trwania jednej klatki gry
+	sf::VideoMode video = sf::VideoMode(800, 600);//okno gry
+	sf::Music music;//zmienna przechowuj¹ca muzykê
 	
 public:
 	//konstruktory / destruktory

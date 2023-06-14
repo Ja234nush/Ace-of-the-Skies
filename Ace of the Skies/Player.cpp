@@ -3,23 +3,23 @@
 
 Player::Player()
 {
-	
+	//konstruktor
 }
 
 Player::~Player()
-{
+{//destruktor
 }
 
 void Player::Init(const sf::Texture& texture)
 {
 
-	this->setTexture(texture);
-	this->setTextureRect(sf::IntRect(0, 0, 99, 99));
-	this->setPosition(100, 100);
+	this->setTexture(texture);//inicjalizacja tekstury
+	this->setTextureRect(sf::IntRect(0, 0, 99, 99));//wyciêcie pocz¹tkowej tekstury
+	this->setPosition(100, 100);//ustalenie pozycji
 }
 
 void Player::Animate(sf::Time DeltaTime)
-{
+{   //animacja gracza
 	accumulatedtime += DeltaTime.asSeconds();
 	if (accumulatedtime >= frameTime)
 	{
@@ -37,7 +37,7 @@ void Player::Animate(sf::Time DeltaTime)
 	}
 
 void Player::Movement(sf::Time DeltaTime, sf::FloatRect bounds,sf::Vector2u window)
-{
+{   //poruszanie gracza zale¿ne od klawiatury
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
     {
         direction.y = -1.0;
@@ -72,9 +72,7 @@ void Player::Movement(sf::Time DeltaTime, sf::FloatRect bounds,sf::Vector2u wind
 
 void Player::borders(sf::FloatRect bounds,sf::Vector2u window)
 {
-    
-    
-
+    // Ograniczenia okna
         if (bounds.left <= 0)
         {
             setPosition(1,this->getPosition().y);
@@ -95,32 +93,32 @@ void Player::borders(sf::FloatRect bounds,sf::Vector2u window)
 }
 
 void Player::setLives(int i)
-{
+{//ustawienie poziomu ¿ycia
     lives += i;
 }
 
 void Player::setFuel(int i)
-{
+{//ustawienie poziomu paliwa
     fuel += i;
 }
 
 void Player::setScore(int i)
-{
+{//ustawienie liczby punktów
     score += i;
 }
 
 int Player::getLives()
-{
+{//pobranie poziomu ¿ycia
     return lives;
 }
 
 int Player::getFuel()
-{
+{//pobranie poziomu paliwa
     return fuel;
 }
 
 int Player::getScore()
-{
+{//pobranie iloœci punktów
     return score;
 }
 

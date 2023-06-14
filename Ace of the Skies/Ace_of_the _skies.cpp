@@ -7,9 +7,6 @@ int main()
     //tworzenie petli glownej
     game.run();
     
-  
-
-
 
     return 0;
 }

@@ -2,11 +2,11 @@
 
 Enemy::Enemy()
 {
-	
+	//konstruktor wirtualny
 }
 
 Enemy::~Enemy()
-{
+{//destruktor wirtulany
 }
 
 

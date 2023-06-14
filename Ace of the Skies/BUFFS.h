@@ -4,6 +4,7 @@
 class BUFFS:public sf::Sprite
 {
 	public:
+		//konstruktor destruktor
 		BUFFS();
 		~BUFFS();
 

@@ -2,29 +2,28 @@
 #include "Statemanager.h"
 
 Engine::StateManager::StateManager() : m_add(false), m_replace(false), m_remove(false)
-{
+{//konstruktor
 }
 
 Engine::StateManager::~StateManager()
-{
+{//destruktor
 }
 
 void Engine::StateManager::Add(std::unique_ptr<State> toAdd, bool replace)
-{
+{	// Dodawanie nowego stanu do stosu
 	m_add = true;
 	m_newState = std::move(toAdd);
-
 	m_replace = replace;
 }
 
 void Engine::StateManager::PopCurrent()
-{
+{	// Usuwanie aktualnego stanu ze stosu
 	m_remove = true;
 
 }
 
 void Engine::StateManager::ProcessStateChanges()
-{
+{	// Przetwarzanie zmian stanów
 	if (m_remove && (!m_stateStack.empty()))
 	{
 		m_stateStack.pop();
@@ -53,6 +52,6 @@ void Engine::StateManager::ProcessStateChanges()
 	
 
 std::unique_ptr<Engine::State>& Engine::StateManager::getCurrent()
-{
+{	// Pobieranie aktualnego stanu
 	return m_stateStack.top();
 }

@@ -4,7 +4,7 @@
 
 
 Helicopter::Helicopter(const sf::Texture& texture, sf::Vector2f position)
-{
+{	//inicjalizacja ziarna dla losowoœci i konstruktor obiektu
 	srand(time(NULL));
 	this->setTexture(texture);
 	this->setTextureRect(sf::IntRect(0, 0, 150, 42));
@@ -12,11 +12,11 @@ Helicopter::Helicopter(const sf::Texture& texture, sf::Vector2f position)
 }
 
 Helicopter::~Helicopter()
-{
+{//destruktor
 }
 
 void Helicopter::Animate(sf::Time DeltaTime)
-{
+{	//animacja helikoptera
 	accumulatedtime += DeltaTime.asSeconds();
 	if (accumulatedtime >= frameTime)
 	{
@@ -29,7 +29,7 @@ void Helicopter::Animate(sf::Time DeltaTime)
 }
 
 void Helicopter::Movement(sf::Time DeltaTime, sf::FloatRect bounds, sf::Vector2u window,float directiony)
-{	
+{	//poruszanie siê helikoptera w zale¿noœci od po³o¿enia gracza, w górê lub dó³
 	if (directiony > (this->getPosition().y-30))
 	{
 		this->move(speed.x * DeltaTime.asSeconds(), speed.y * DeltaTime.asSeconds());
@@ -38,16 +38,16 @@ void Helicopter::Movement(sf::Time DeltaTime, sf::FloatRect bounds, sf::Vector2u
 	{
 		this->move(speed.x * DeltaTime.asSeconds(), speed.y * DeltaTime.asSeconds() * (-1));
 	}
-	this->borders( bounds,window);
+	this->borders( bounds,window);//odwo³anie do funkcji klasy Enemy
 }
 
 void Helicopter::setlives()
-{
+{	//zmienianie poziomu ¿ycia
 	lives -= 1;
 }
 
 int Helicopter::getlives()
-{
+{	//pobieranie poziomu ¿ycia
 	return lives;
 }
 
